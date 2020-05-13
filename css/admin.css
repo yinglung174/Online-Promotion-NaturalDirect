@@ -1,0 +1,22 @@
+body {
+    color: chocolate;
+    background-color: skyblue;
+    cursor: url('image/cursor.png'), default;
+}
+h1{
+    color: crimson;
+    text-align: center;
+}
+ul{
+    color: buttonface;
+}
+
+center{
+    color: green;
+}
+a{
+    color: yellow;
+}
+h2{
+    color: gold;
+}
