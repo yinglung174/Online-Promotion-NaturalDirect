@@ -21,7 +21,7 @@ if (isset($_GET["order"]) && !empty($_GET["order"])) {
     $num = $_GET['num'];
     $item_total = $_GET['item_total'];
     $order = "INSERT INTO product_order VALUES('','$code1','$num','$No','$item_total','$date') ";
-    $resultQ = mysql_query($order) or die(mysql_error());
+    $resultQ = mysqli_query($conn,$order) or die(mysqli_error($conn));
     if ($order) {
         echo "<script>alert('Order Successfully');window.location.href='vieworder.php';</script>";
         unset($_SESSION['carts'][$code1]);

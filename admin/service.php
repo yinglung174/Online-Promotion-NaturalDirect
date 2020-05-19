@@ -44,12 +44,12 @@ include_once '../includes/connect.php';
                     die("Database access failed: " . mysqli_error($conn));
                 }
                 $rowSE = mysqli_num_rows($resultSE);
-                $numOfRecordSE = count($rowSE);
+                $numOfRecordSE = count((is_countable($rowSE)?$rowSE:[]));
                 $iSE = 0;
                 if (isset($_POST["DeleteService"])) {
                     $serviceID = $_POST["serviceID"];
                     $sql = "DELETE FROM service WHERE serviceID = '$serviceID'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - ServiceID:$serviceID</center>";
                         echo "<center><form action=\"service.php\" method=\"post\">";
@@ -66,7 +66,7 @@ include_once '../includes/connect.php';
                     $sql = "update service set serviceID='" . $serviceID . "',price='" . $price .
                             "',serviceUrl='" . $serviceUrl . "',code='" . $code . "',serviceName='"
                             . $serviceName . "',description='" . $description . "'  where serviceID='" . $serviceID . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - ServiceID :$serviceID</center>";
                         echo"<center><table border=\"1\">";
@@ -109,7 +109,7 @@ include_once '../includes/connect.php';
                     $serviceName = $_POST["serviceName"];
                     $description = $_POST["description"];
                     $sql = "INSERT INTO service VALUES('','$price','$serviceUrl','$code','$serviceName','$description') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowSE = mysqli_fetch_array($resultSE)) {
                         $serviceID = $rowSE["serviceID"];
                     }

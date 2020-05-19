@@ -44,12 +44,12 @@ include_once '../includes/connect.php';
                     die("Database access failed: " . mysqli_error($conn));
                 }
                 $rowE = mysqli_num_rows($resultE);
-                $numOfRecordE = count($rowE);
+                $numOfRecordE = count((is_countable($rowE)?$rowE:[]));
                 $iE = 0;
                 if (isset($_POST["DeleteEmail"])) {
                     $emailID = $_POST["emailID"];
                     $sql = "DELETE FROM email WHERE emailID = '$emailID'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - EmailID:$emailID</center>";
                         echo "<center><form action=\"mail.php\" method=\"post\">";
@@ -66,7 +66,7 @@ include_once '../includes/connect.php';
                     $sql = "update email set emailID='" . $emailID . "',userID='" . $userID .
                             "',topic='" . $topic . "',content='" . $content . "',date='"
                             . $Edate . "',senderID='" . $senderID . "'  where emailID='" . $emailID . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - EmailID :$emailID</center>";
                         echo"<center><table border=\"1\">";
@@ -109,7 +109,7 @@ include_once '../includes/connect.php';
                     $Edate = $_POST["Edate"];
                     $senderID = $_POST["senderID"];
                     $sql = "INSERT INTO email VALUES('','$userID','$topic','$content','$Edate','$senderID') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowE = mysqli_fetch_array($resultE)) {
                         $emailID = $rowE["emailID"];
                     }

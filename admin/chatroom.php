@@ -44,12 +44,12 @@ include_once '../includes/connect.php';
                     die("Database access failed: " . mysqli_error($conn));
                 }
                 $rowC = mysqli_num_rows($resultC);
-                $numOfRecordC = count($rowC);
+                $numOfRecordC = count((is_countable($rowC)?$rowC:[]));
                 $iC = 0;
                 if (isset($_POST["DeleteChatroom"])) {
                     $chatid = $_POST["chatid"];
                     $sql = "DELETE FROM chattb WHERE chatid = '$chatid'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - ChatID:$chatid</center>";
                         echo "<center><form action=\"chatroom.php\" method=\"post\">";
@@ -65,7 +65,7 @@ include_once '../includes/connect.php';
                     $sql = "update chattb set chatid='" . $chatid . "',userID='" . $userID .
                             "',chatbody='" . $chatbody . "',chatdate='" . $chatdate . "',date='"
                             . $Cdate . "'  where chatid='" . $chatid . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - ChatID :$chatid</center>";
                         echo"<center><table border=\"1\">";
@@ -104,7 +104,7 @@ include_once '../includes/connect.php';
                     $chatdate = $_POST["chatdate"];
                     $Cdate = $_POST["Cdate"];
                     $sql = "INSERT INTO chattb VALUES('','$userID','$chatbody','$chatdate','$Cdate') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowC = mysqli_fetch_array($resultC)) {
                         $chatid = $rowC["chatid"];
                     }

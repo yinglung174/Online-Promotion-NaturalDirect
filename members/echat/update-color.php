@@ -16,9 +16,9 @@ $rowU = mysqli_num_rows($resultU);
 $numOfRecordU = count($rowU);
 if ($rowU == 0) {
     $sqlC = "INSERT INTO colortb VALUES('','$No','$bg','$txt') ";
-    $result = mysql_query($sqlC) or die(mysql_error());
+    $result = mysqli_query($conn,$sqlC) or die(mysqli_error($conn));
 }
-$sql = mysql_query("UPDATE colortb SET colortb.colorbg = '$bg', colortb.colortxt = '$txt' WHERE colortb.userID = '$No' ");
+$sql = mysqli_query($conn,"UPDATE colortb SET colortb.colorbg = '$bg', colortb.colortxt = '$txt' WHERE colortb.userID = '$No' ");
 
 if ($sql) {
     header("Location: home.php");

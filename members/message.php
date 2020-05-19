@@ -93,7 +93,7 @@ date_default_timezone_set("Asia/Hong_Kong");
             die("Database access failed: " . mysqli_error($conn));
         }
         $rowUser = mysqli_num_rows($resultUser);
-        $numOfRecordUser = count($rowUser);
+        $numOfRecordUser = count((is_countable($rowUser)?$rowUser:[]));
         $u = 1;
         echo "Your Personal Email";
         echo "<table border='2' width='800'>";
@@ -167,7 +167,7 @@ date_default_timezone_set("Asia/Hong_Kong");
             $senderID = $_POST["senderID"];
             $userID = $_POST["userID"];
             $send = "INSERT INTO email  VALUES('','$userID','$topic','$content','$date','$senderID') ";
-            $resultQ = mysql_query($send) or die(mysql_error());
+            $resultQ = mysqli_query($conn,$send) or die(mysqli_error($conn));
             if ($send) {
                 echo "Send successfully!";
             }

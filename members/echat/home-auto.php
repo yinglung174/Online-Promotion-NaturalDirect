@@ -6,20 +6,20 @@
         <?php
         include("connect.php");
 
-        $show = mysql_query("SELECT user.name,chattb.chatbody,chattb.chatdate,user.userID,user.username,chattb.date FROM user INNER JOIN chattb ON user.userID = chattb.userID ORDER BY chattb.chatid ASC LIMIT 50");
+        $show = mysqli_query($conn,"SELECT user.name,chattb.chatbody,chattb.chatdate,user.userID,user.username,chattb.date FROM user INNER JOIN chattb ON user.userID = chattb.userID ORDER BY chattb.chatid ASC LIMIT 50");
 
         $cur_bg = "skyblue";
         $cur_txt = "white";
 
-        while ($row = mysql_fetch_array($show)) {
+        while ($row = mysqli_fetch_array($show)) {
 
             $No = $row[3];
 
 
             //$getclr = mysql_query("SELECT colortb.colorbg,colortb.colortxt FROM colortb INNER JOIN userstb ON colortb.username = colortb.username WHERE userstb.username = '$cur_user' ORDER BY colortb.colorid DESC");
-            $getclr = mysql_query("SELECT colortb.colorbg,colortb.colortxt FROM colortb WHERE colortb.userID = '$No' ");
+            $getclr = mysqli_query($conn,"SELECT colortb.colorbg,colortb.colortxt FROM colortb WHERE colortb.userID = '$No' ");
 
-            while ($val = mysql_fetch_array($getclr)) {
+            while ($val = mysqli_fetch_array($getclr)) {
                 $cur_bg = $val[0];
                 $cur_txt = $val[1];
             }

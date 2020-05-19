@@ -44,12 +44,12 @@ include_once '../includes/connect.php';
                     die("Database access failed: " . mysqli_error($conn));
                 }
                 $rowP = mysqli_num_rows($resultP);
-                $numOfRecordP = count($rowP);
+                $numOfRecordP = count((is_countable($rowP)?$rowP:[]));
                 $iP = 0;
                 if (isset($_POST["DeleteProduct"])) {
                     $productID = $_POST["productID"];
                     $sql = "DELETE FROM product WHERE productID = '$productID'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - ProductID:$productID</center>";
                         echo "<center><form action=\"product.php\" method=\"post\">";
@@ -66,7 +66,7 @@ include_once '../includes/connect.php';
                     $sql = "update product set productID='" . $productID . "',price='" . $price .
                             "',productUrl='" . $productUrl . "',code='" . $code . "',productName='"
                             . $productName . "',description='" . $description . "'  where productID='" . $productID . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - ProductID :$productID</center>";
                         echo"<center><table border=\"1\">";
@@ -109,7 +109,7 @@ include_once '../includes/connect.php';
                     $productName = $_POST["productName"];
                     $description = $_POST["description"];
                     $sql = "INSERT INTO product VALUES('','$price','$productUrl','$code','$productName','$description') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowP = mysqli_fetch_array($resultP)) {
                         $productID = $rowP["productID"];
                     }

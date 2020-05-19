@@ -48,14 +48,14 @@ include_once '../includes/connect.php';
                 }
                 $rowPO = mysqli_num_rows($resultPO);
                 $rowSO = mysqli_num_rows($resultSO);
-                $numOfRecordPO = count($rowPO);
-                $numOfRecordSO = count($rowSO);
+                $numOfRecordPO = count((is_countable($rowPO)?$rowPO:[]));
+                $numOfRecordSO = count((is_countable($rowSO)?$rowSO:[]));
                 $iPO = 0;
                 $iSO = 0;
                 if (isset($_POST["DeleteSOrder"])) {
                     $pserviceID = $_POST["pserviceID"];
                     $sql = "DELETE FROM service_order WHERE pserviceID = '$pserviceID'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - Service_Order ID:$pserviceID</center>";
                         echo "<center><form action=\"order.php\" method=\"post\">";
@@ -65,7 +65,7 @@ include_once '../includes/connect.php';
                 if (isset($_POST["DeletePOrder"])) {
                     $porderID = $_POST["porderID"];
                     $sql = "DELETE FROM product_order WHERE porderID = '$porderID'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - Product_Order ID:$porderID</center>";
                         echo "<center><form action=\"order.php\" method=\"post\">";
@@ -80,7 +80,7 @@ include_once '../includes/connect.php';
                     $SOdate = $_POST["SOdate"];
                     $sql = "update service_order set pserviceID='" . $pserviceID . "',serviceCode='" . $serviceCode .
                             "',userID='" . $userID . "',total='" . $total . "',date='" . $SOdate . "'  where pserviceID='" . $pserviceID . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - Service_Order ID :$pserviceID</center>";
                         echo"<center><table border=\"1\">";
@@ -103,7 +103,7 @@ include_once '../includes/connect.php';
                     $POdate = $_POST["POdate"];
                     $sql = "update product_order set porderID='" . $porderID . "',productCode='" . $productCode .
                             "',quantity='" . $quantity . "',userID='" . $userID . "',total='" . $total . "',date='" . $POdate . "'  where porderID='" . $porderID . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - Product_Order ID :$porderID</center>";
                         echo"<center><table border=\"1\">";
@@ -164,7 +164,7 @@ include_once '../includes/connect.php';
                     $total = $_POST["total"];
                     $SOdate = $_POST["SOdate"];
                     $sql = "INSERT INTO service_order VALUES('','$serviceCode','$userID','$total','$SOdate') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowSO = mysqli_fetch_array($resultSO)) {
                         $pserviceID = $rowSO["pserviceID"];
                     }
@@ -189,7 +189,7 @@ include_once '../includes/connect.php';
                     $total = $_POST["total"];
                     $POdate = $_POST["POdate"];
                     $sql = "INSERT INTO product_order VALUES('','$productCode','$quantity','$userID','$total','$POdate') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowPO = mysqli_fetch_array($resultPO)) {
                         $porderID = $rowPO["porderID"];
                     }

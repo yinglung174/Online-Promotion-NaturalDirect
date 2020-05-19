@@ -45,12 +45,12 @@ include_once '../includes/connect.php';
                 die("Database access failed: " . mysqli_error($conn));
             }
             $rowU = mysqli_num_rows($resultU);
-            $numOfRecordU = count($rowU);
+            $numOfRecordU = count((is_countable($rowU)?$rowU:[]));
             $iU = 0;
             if (isset($_POST["DeleteUser"])) {
                 $userID = $_POST["userID"];
                 $sql = "DELETE FROM user WHERE userID = '$userID'";
-                $result = mysql_query($sql) or die(mysql_error());
+                $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                 if ($sql) {
                     echo" <center>Delete Success - UserID:$userID</center>";
                     echo "<center><form action=\"user.php\" method=\"post\">";
@@ -72,7 +72,7 @@ include_once '../includes/connect.php';
                         "',email='" . $mail . "',tel='" . $tel . "',gender='"
                         . $gender . "',brithday='" . $birth . "',address='" . $address . "',username='"
                         . $username . "',password='" . $password . "' where userID='" . $userID . "'";
-                $result = mysql_query($sql) or die(mysql_error());
+                $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                 if ($sql) {
                     echo" <center>Edit Success - UserID :$userID</center>";
                     echo"<div class=\"col-md-5\">
@@ -134,7 +134,7 @@ include_once '../includes/connect.php';
                         $usernameU = $_POST["username"];
                     } else {
                         echo "<center>username is repeated or null! Please create again!";
-                        echo "<a href='members.php'>Back</a></center>";
+                        echo "<a href='user.php?user=yes'>Back</a></center>";
                         $usernameU = NULL;
                         break;
                     }
@@ -152,7 +152,7 @@ include_once '../includes/connect.php';
                     $mail = $_POST["mail"];
                     $password = md5($_POST["password"]);
                     $sql = "INSERT INTO user VALUES('$userIDU','$icon','$usernameU','$password','$name','$gender','$address','$tel','$mail','0','$birth','$date') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysql_query($conn,$sql) or die(mysql_error($conn));
                     if ($sql) {
                         echo" <center>Create Success - UserID :$userIDU</center>";
                         echo"<center><table border=\"1\">";

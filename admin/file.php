@@ -45,13 +45,13 @@ include_once '../includes/connect.php';
             die("Database access failed: " . mysqli_error($conn));
             }
             $rowC = mysqli_num_rows($resultC);
-            $numOfRecordC = count($rowC);
+            $numOfRecordC =count((is_countable($rowC)?$rowC:[]));
             $iC = 0;
             if (isset($_POST["DeleteFile"])) {
             $fileNo = $_POST["fileNo"];
              $fileName = $_POST["fileName"];
             $sql = "DELETE FROM file WHERE fileNo = '$fileNo'";
-            $result = mysql_query($sql) or die(mysql_error());
+            $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
             if ($sql) {
             echo" <center>Delete Success - FileNo:$fileNo</center>";
             echo "<center><form action=\"file.php\" method=\"post\">";
@@ -67,7 +67,7 @@ include_once '../includes/connect.php';
             $fileContent = $_POST["fileContent"];
             $sql = "update file set fileNo='" . $fileNo . "',fileName='" . $fileName .
             "',fileTitle='" . $fileTitle . "',fileContent='" . $fileContent . "'  where fileNo='" . $fileNo . "'";
-            $result = mysql_query($sql) or die(mysql_error());
+            $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
             if ($sql) {
             echo" <center>Edit Success - FileNo :$fileNo</center>";
             echo"<center><table border=\"1\">";
@@ -244,7 +244,7 @@ $color = mysqli_fetch_assoc($result);
             $fileName = $_POST["fileName"];
             $fileContent = $_POST["fileContent"];
             $sql = "INSERT INTO file VALUES('','$fileName','$fileTitle','$fileContent') ";
-            $result = mysql_query($sql) or die(mysql_error());
+            $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
             while ($rowC = mysqli_fetch_array($resultC)) {
             $fileNo = $rowC["fileNo"];
             }

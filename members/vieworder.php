@@ -131,8 +131,9 @@ date_default_timezone_set("Asia/Hong_Kong");
         }
         $rowS = mysqli_num_rows($resultS);
         $rowUser = mysqli_num_rows($resultUser);
-        $numOfRecordUser = count($rowUser);
-        $numOfRecordS = count($rowS);
+        $numOfRecordUser = count((is_countable($rowUser)?$rowUser:[]));
+
+        $numOfRecordS = count((is_countable($rowS)?$rowS:[]));
         $u = 0;
         $realtotal = 0;
         echo "Your Order";

@@ -62,7 +62,7 @@ if (isset($_POST['register'])) {
                 $mail = $_POST["email"];
                 $password = md5($_POST["password"]);
                 $sql = "INSERT INTO user VALUES('$userIDU','','$usernameU','$password','$name','$gender','$address','$tel','$mail','0','$birth','$date') ";
-                $result = mysql_query($sql) or die(mysql_error());
+                $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                 if ($sql) {
                     echo "<script>alert('Data successfully saved, You may now login!')</script>";
                     echo "<script>window.open('members.php','_self')</script>";

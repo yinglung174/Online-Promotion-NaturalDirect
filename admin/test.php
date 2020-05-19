@@ -44,12 +44,12 @@ include_once '../includes/connect.php';
                     die("Database access failed: " . mysqli_error($conn));
                 }
                 $rowA = mysqli_num_rows($resultA);
-                $numOfRecordA = count($rowA);
+                $numOfRecordA = count((is_countable($rowA)?$rowA:[]));
                 $iA = 0;
                 if (isset($_POST["DeleteTest"])) {
                     $id = $_POST["id"];
                     $sql = "DELETE FROM autism WHERE id = '$id'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Delete Success - TestID:$id</center>";
                         echo "<center><form action=\"test.php\" method=\"post\">";
@@ -62,7 +62,7 @@ include_once '../includes/connect.php';
                     $mark = $_POST["mark"];
                     $sql = "update autism set id='" . $id . "',engq='" . $engq .
                             "',mark='" . $mark . "'  where id='" . $id . "'";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     if ($sql) {
                         echo" <center>Edit Success - TestID :$id</center>";
                         echo"<center><table border=\"1\">";
@@ -93,7 +93,7 @@ include_once '../includes/connect.php';
                     $engq = $_POST["engq"];
                     $mark = $_POST["mark"];
                     $sql = "INSERT INTO autism VALUES('','$engq','$mark') ";
-                    $result = mysql_query($sql) or die(mysql_error());
+                    $result = mysqli_query($conn,$sql) or die(mysqli_error($conn));
                     while ($rowA = mysqli_fetch_array($resultA)) {
                         $id = $rowA["id"];
                     }

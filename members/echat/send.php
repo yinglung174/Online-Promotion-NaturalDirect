@@ -11,7 +11,7 @@ $No = $_SESSION["fb_id"];
  }
 $date = date("g:i a");
 $ddate = date("d/m/Y");
-$send = mysql_query("INSERT INTO chattb VALUES('','$No','$msg','$date','$ddate') ");
+$send = mysqli_query($conn,"INSERT INTO chattb VALUES('','$No','$msg','$date','$ddate') ");
 
 if($send)
 {

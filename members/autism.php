@@ -132,7 +132,7 @@ $rowtitle = mysqli_fetch_row($title_result);
                 die("Database access failed: " . mysqli_error($conn));
             }
             $rowUser = mysqli_num_rows($resultUser);
-            $numOfRecordUser = count($rowUser);
+            $numOfRecordUser = count((is_countable($rowUser)?$rowUser:[]));
             $u = 0;
             while ($rowUser = mysqli_fetch_array($resultUser)) {
                 if ($rowUser["username"] == $username && $rowUser["password"] == $password) {
